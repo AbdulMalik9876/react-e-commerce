@@ -3,29 +3,21 @@ import "./login.css";
 import video1 from "../Pics/vid2.mp4";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../auth";
 
 function Login() {
   const navigate = useNavigate();
   const [submit, setSubmit] = useState(false);
 
-  function submitForm(event) {
-    // Prevent the form from submitting automatically
+  async function submitForm(event) {
     event.preventDefault();
-
-    // Get the username and password inputs
-    const usernameInput = document.getElementById("admin");
-    const passwordInput = document.getElementById("password");
-
-    // Check if the username and password are correct
-    if (
-      usernameInput.value === "admin" &&
-      passwordInput.value === "admin"
-    ) {
+    const username = document.getElementById("admin").value;
+    const password = document.getElementById("password").value;
+    const role = await login(username, password);
+    if (role) {
       setSubmit(true);
-      navigate("/admin"); // Navigate to the admin page on successful login
+      navigate(role === "admin" ? "/admin" : "/");
     } else {
-      setSubmit(false);
-      // If the username and password are incorrect, display an error message
       alert("Incorrect username or password.");
     }
   }

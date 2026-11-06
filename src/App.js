@@ -8,7 +8,8 @@ import Admin from './Asserts/Pages/AdminPage';
 import Login from './Asserts/Pages/Login';
 import MYFooter from './Asserts/Pages/MYFooter';
 
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { getRole } from "./auth";
 import ProductPage from "./Asserts/Pages/ProductPage";
 // import Display from "./Asserts/Pages/Home/Display";
 function App() {
@@ -34,10 +35,10 @@ function App() {
         </>}
         />
 
-        <Route exact path="admin" element={<>
+        <Route exact path="admin" element={getRole() === "admin" ? <>
           <HeroSection />
           <Admin />
-        </>}
+        </> : <Navigate to="/login" replace />}
         />
 
         <Route exact path="/login" element={<>
